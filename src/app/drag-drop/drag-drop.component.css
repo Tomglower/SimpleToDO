@@ -19,6 +19,7 @@
     display: inline-block;
     vertical-align: top;
     margin-top: 40px;
+
   }
   
   .example-list {
@@ -82,4 +83,8 @@
     font-weight: bold;
     margin: 0 auto; 
   } 
-  
+  .created-time {
+    font-size: 12px; 
+    color: #888;
+    margin-top: 4px; 
+  }

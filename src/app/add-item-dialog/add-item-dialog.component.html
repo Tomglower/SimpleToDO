@@ -4,9 +4,18 @@
     <mat-label>Добавить элемент</mat-label>
     <input matInput [(ngModel)]="newItem">
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Приоритет</mat-label>
+  <mat-select [(value)]="priority">
+    <mat-option value="0">Нет</mat-option>
+    <mat-option value="1">Низкий</mat-option>
+    <mat-option value="2">Средний</mat-option>
+    <mat-option value="3">Высокий</mat-option>
+  </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions class="button-container">
   <button mat-button (click)="onCancelClick()" class="cancel-button">Отмена</button>
   <span class="spacer"></span>
-  <button mat-button [mat-dialog-close]="newItem" cdkFocusInitial class="add-button">Добавить</button>
+  <button mat-button [mat-dialog-close]="{newItem: newItem, priority: priority}" cdkFocusInitial class="add-button">Добавить</button>
 </mat-dialog-actions>

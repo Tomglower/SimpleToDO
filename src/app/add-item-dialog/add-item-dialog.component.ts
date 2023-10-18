@@ -8,6 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AddItemDialogComponent {
   newItem: string = '';
+  priority:string = '';
   constructor(public dialogRef: MatDialogRef<AddItemDialogComponent>) {}
   onCancelClick(): void {
     this.dialogRef.close();
