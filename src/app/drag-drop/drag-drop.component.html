@@ -1,0 +1,35 @@
+<div class="date-time-container text-center">
+  <div class="date-time">{{ getCurrentDateTime() }}</div>
+</div>
+<div class="container">
+  
+  <div class="example-container">
+    
+    <h2 class="title">To do <button mat-icon-button (click)="openDialog()" class="icon-button"><mat-icon>add</mat-icon></button></h2>
+    <div
+      cdkDropList
+      #todoList="cdkDropList"
+      [cdkDropListData]="todo"
+      [cdkDropListConnectedTo]="[doneList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box" *ngFor="let item of todo" cdkDrag>{{ item }} <button mat-icon-button (click)="deleteItemsToDo(item)" class="icon-button"><mat-icon>close</mat-icon></button></div>
+    </div>
+  </div>
+
+  <div class="example-container2">
+ 
+    <h2>Done</h2>
+    <div
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="[todoList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box" *ngFor="let item of done" cdkDrag>{{ item }} <button mat-icon-button (click)="deleteItemsDone(item)" class="icon-button"><mat-icon>close</mat-icon></button></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Добавить задачу</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Добавить элемент</mat-label>
+    <input matInput [(ngModel)]="newItem">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class="button-container">
+  <button mat-button (click)="onCancelClick()" class="cancel-button">Отмена</button>
+  <span class="spacer"></span>
+  <button mat-button [mat-dialog-close]="newItem" cdkFocusInitial class="add-button">Добавить</button>
+</mat-dialog-actions>
