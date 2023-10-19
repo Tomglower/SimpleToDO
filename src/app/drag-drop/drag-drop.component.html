@@ -21,7 +21,7 @@
       [cdkDropListData]="todo"
       [cdkDropListConnectedTo]="[doneList]"
       class="example-list"
-      (cdkDropListDropped)="drop($event,'done')"
+      (cdkDropListDropped)="drop($event,'todo')"
     >
       <div class="example-box" *ngFor="let item of todo" cdkDrag>
         <div class="task-content">

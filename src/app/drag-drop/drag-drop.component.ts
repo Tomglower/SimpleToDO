@@ -20,23 +20,23 @@ export class DragDropComponent {
   currentDateTime: string = '';
   isSortedByPriority: boolean = false;
    priorityMapping: { [key: number]: string } = {
-    0: 'Нет',
-    1: 'Низкий',
-    2: 'Средний',
-    3: 'Высокий',
+    0: 'None',
+    1: 'Low',
+    2: 'Mid',
+    3: 'High',
   };
   priorityText(prior: string): string {
     const priorityNumber = parseInt(prior, 10);
   
     switch (priorityNumber) {
       case 0:
-        return 'Нет';
+        return 'None';
       case 1:
-        return 'Низкий';
+        return 'Low';
       case 2:
-        return 'Средний';
+        return 'Mid';
       case 3:
-        return 'Высокий';
+        return 'High';
       default:
         return prior; 
     }
@@ -125,7 +125,7 @@ export class DragDropComponent {
         const currentTime = this.getCurrentDateTime();
         this.todo.push({ text: this.newItem, description, createdTime: currentTime, prior: this.priority, doneat: '0' });
         this.saveDataLocally();
-        this.OpenSnackBar(`Добавлен элемент "${this.newItem}" в коллекцию ToDO. Приоритет: ${priorityText}`, 'Закрыть');
+        this.OpenSnackBar(`Add element "${this.newItem}" in collection ToDO. Priority: ${priorityText}`, 'Close');
       }
     });
   }
@@ -148,7 +148,7 @@ export class DragDropComponent {
         const priorityText = this.priorityMapping[Number(item.prior)];
   
         this.saveDataLocally();
-        this.OpenSnackBar(`Изменения в элементе "${item.text}" сохранены. Приоритет: ${priorityText}`, 'Закрыть');
+        this.OpenSnackBar(`Changes of element "${item.text}" saved. Priority: ${priorityText}`, 'Close');
       }
     });
   }
@@ -161,7 +161,7 @@ export class DragDropComponent {
       this.todo.splice(index, 1);
       this.saveDataLocally();
     }
-    this.OpenSnackBar(`Удален элемент "${item.text}" из коллекции ToDO`, 'Закрыть');
+    this.OpenSnackBar(`Delete element "${item.text}" from the collection ToDO`, 'Close');
   }
 
   deleteItemsDone(item: { text: string,description: string, createdTime: string, prior: string, doneat: string }) {
@@ -170,7 +170,7 @@ export class DragDropComponent {
       this.done.splice(index, 1);
       this.saveDataLocally();
     }
-    this.OpenSnackBar(`Удален элемент "${item.text}" из коллекции Done`, 'Закрыть');
+    this.OpenSnackBar(`Delete element "${item.text}" from the collection ToDO`, 'Close');
   }
   
     deleteAll() {
@@ -178,6 +178,7 @@ export class DragDropComponent {
       localStorage.removeItem('done');
       this.todo = []; 
       this.done = []; 
+      this.OpenSnackBar(`Removed all collections`, 'Close');
     }
   
 
