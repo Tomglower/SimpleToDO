@@ -14,8 +14,8 @@ import { EditItemDialogComponent } from '../edit-item-dialog/edit-item-dialog.co
 export class DragDropComponent {
   newItem: string = '';
   priority: string = '';
-  todo: { text: string, description: string, createdTime: string, prior: string }[] = [];
-  done: { text: string, description: string, createdTime: string, prior: string }[] = [];
+  todo: { text: string, description: string, createdTime: string, prior: string, doneat: string }[] = [];
+  done: { text: string, description: string, createdTime: string, prior: string, doneat: string }[] = [];
   
   currentDateTime: string = '';
   isSortedByPriority: boolean = false;
@@ -61,12 +61,13 @@ export class DragDropComponent {
 
   ngOnInit() {
     this.updateCurrentDateTime();
+
     this.loadDataFromLocalStorage();
     interval(1000).subscribe(() => {
       this.updateCurrentDateTime();
     });
   }
-  sortItemsByPriority(items: { text: string,description: string, createdTime: string, prior: string }[]): { text: string,description: string, createdTime: string, prior: string }[] {
+  sortItemsByPriority(items: { text: string,description: string, createdTime: string, prior: string, doneat: string }[]): { text: string,description: string, createdTime: string, prior: string, doneat: string }[] {
     return items.sort((b, a) => Number(a.prior) - Number(b.prior));
   }
   toggleSorting() {
@@ -85,6 +86,11 @@ export class DragDropComponent {
   getCurrentDateTime(): string {
     const currentDateTime = new Date();
     return currentDateTime.toLocaleString();
+  }
+
+  getDoneDateTime():string {
+    const donedate = new Date();
+    return donedate.toLocaleString();
   }
 
   loadDataFromLocalStorage() {
@@ -117,7 +123,7 @@ export class DragDropComponent {
         const priorityText = this.priorityMapping[Number(this.priority)];
   
         const currentTime = this.getCurrentDateTime();
-        this.todo.push({ text: this.newItem, description, createdTime: currentTime, prior: this.priority });
+        this.todo.push({ text: this.newItem, description, createdTime: currentTime, prior: this.priority, doneat: '0' });
         this.saveDataLocally();
         this.OpenSnackBar(`Добавлен элемент "${this.newItem}" в коллекцию ToDO. Приоритет: ${priorityText}`, 'Закрыть');
       }
@@ -149,7 +155,7 @@ export class DragDropComponent {
   
   
 
-  deleteItemsToDo(item: { text: string, description: string, createdTime: string, prior: string }) {
+  deleteItemsToDo(item: { text: string, description: string, createdTime: string, prior: string, doneat: string }) {
     const index = this.todo.indexOf(item);
     if (index !== -1) {
       this.todo.splice(index, 1);
@@ -158,7 +164,7 @@ export class DragDropComponent {
     this.OpenSnackBar(`Удален элемент "${item.text}" из коллекции ToDO`, 'Закрыть');
   }
 
-  deleteItemsDone(item: { text: string,description: string, createdTime: string, prior: string }) {
+  deleteItemsDone(item: { text: string,description: string, createdTime: string, prior: string, doneat: string }) {
     const index = this.done.indexOf(item);
     if (index !== -1) {
       this.done.splice(index, 1);
@@ -187,7 +193,7 @@ export class DragDropComponent {
     });
   }
 
-  drop(event: CdkDragDrop<{ text: string,description: string,  createdTime: string, prior: string }[]>) {
+  drop(event: CdkDragDrop<{ text: string, description: string, createdTime: string, prior: string, doneat: string }[]>, listName: string) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -197,8 +203,14 @@ export class DragDropComponent {
         event.previousIndex,
         event.currentIndex
       );
-      
+  
+      if (listName === 'done') {
+        const item = this.done[event.currentIndex];
+        item.doneat = this.getDoneDateTime();
+      }
+  
       this.saveDataLocally();
     }
   }
+  
 }

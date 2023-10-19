@@ -21,13 +21,14 @@
       [cdkDropListData]="todo"
       [cdkDropListConnectedTo]="[doneList]"
       class="example-list"
-      (cdkDropListDropped)="drop($event)"
+      (cdkDropListDropped)="drop($event,'done')"
     >
       <div class="example-box" *ngFor="let item of todo" cdkDrag>
         <div class="task-content">
           <div class="task-title">{{ item.text }}</div>
           <div class="task-description">{{ item.description }}</div>
           <div class="created-time">Created: {{ item.createdTime }}</div>
+         
           <div class="task-priority" [ngStyle]="{ 'color': priorityColor(item.prior) }">
             Priority: {{ priorityText(item.prior) }}
           </div>
@@ -52,7 +53,7 @@
       [cdkDropListData]="done"
       [cdkDropListConnectedTo]="[todoList]"
       class="example-list"
-      (cdkDropListDropped)="drop($event)"
+      (cdkDropListDropped)="drop($event,'done')"
     >
       <div class="example-box" *ngFor="let item of done" cdkDrag>
         <div class="task-content">
@@ -61,6 +62,7 @@
           </div>
           <div class="task-description">{{ item.description }}</div>
           <div class="created-time">Created: {{ item.createdTime }}</div>
+          <div class="created-time">DoneAt: {{ item.doneat }}</div>
           <div class="task-priority" [ngStyle]="{ 'color': priorityColor(item.prior) }">
             Priority: {{ priorityText(item.prior) }}
           </div>
