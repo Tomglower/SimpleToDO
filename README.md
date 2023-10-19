@@ -10,6 +10,7 @@ This is a simple To-Do list application built with Angular and Material Design c
 - View task creation time and priority level.
 - Delete tasks from both lists.
 - Real-time clock display to keep track of current time.
+- Data save in localstorage!
 
 ## Built With
 - Angular.
