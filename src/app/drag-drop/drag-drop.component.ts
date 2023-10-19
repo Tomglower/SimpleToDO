@@ -166,6 +166,14 @@ export class DragDropComponent {
     }
     this.OpenSnackBar(`Удален элемент "${item.text}" из коллекции Done`, 'Закрыть');
   }
+  
+    deleteAll() {
+      localStorage.removeItem('todo');
+      localStorage.removeItem('done');
+      this.todo = []; 
+      this.done = []; 
+    }
+  
 
   private saveDataLocally() {
     localStorage.setItem('todo', JSON.stringify(this.todo));

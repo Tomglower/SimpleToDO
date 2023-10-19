@@ -1,7 +1,11 @@
 <div class="date-time-container text-center">
   <div class="date-time">{{ getCurrentDateTime() }}</div>
 </div>
+
 <div class="container">
+  <button mat-icon-button (click)="deleteAll()" class="icon-button">
+    <mat-icon>delete</mat-icon>
+  </button>
   <div class="example-container">
     <h2 class="title">To Do
       <button mat-icon-button (click)="toggleSorting()" class="icon-button">
