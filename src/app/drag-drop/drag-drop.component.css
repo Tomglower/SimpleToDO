@@ -32,6 +32,8 @@
   }
   
   .example-box {
+    white-space: normal;
+    max-width: 100%;
     padding: 15px 10px;
     border-bottom: solid 1px #ccc;
     color: rgba(0, 0, 0, 0.87);
@@ -43,7 +45,11 @@
     cursor: move;
     background: white;
     font-size: 20px;
+    white-space: normal; 
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
   }
+  
   
   .cdk-drag-preview {
     box-sizing: border-box;
@@ -83,8 +89,46 @@
     font-weight: bold;
     margin: 0 auto; 
   } 
+
+
+  .task-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .task-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.task-description {
+  font-size: 14px;
+  margin-bottom: 5px;
+
+}
+  
   .created-time {
-    font-size: 12px; 
+    font-size: 12px;
     color: #888;
-    margin-top: 4px; 
+  }
+  
+  .task-priority {
+    font-size: 14px;
+    font-weight: 500	;
+  }
+  
+  .icon-button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .icon-button:hover {
+    color: #007acc; 
+  }
+  .break-word {
+    overflow-wrap: break-word;
+    word-wrap: break-word; 
   }

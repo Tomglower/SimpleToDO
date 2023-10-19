@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Edit Task</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <textarea matInput placeholder="Task Note" [(ngModel)]="text" rows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" [(ngModel)]="description" rows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Приоритет</mat-label>
+    <mat-select [(value)]="priority">
+      <mat-option value="0">Нет</mat-option>
+      <mat-option value="1">Низкий</mat-option>
+      <mat-option value="2">Средний</mat-option>
+      <mat-option value="3">Высокий</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button class="cancel-button" (click)="onCancelClick()">Cancel</button>
+  <span class="spacer"></span>
+  <button mat-button class="add-button" [mat-dialog-close]="{text: text, description: description,priority:priority}">Save</button>
+</mat-dialog-actions>

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddItemDialogComponent } from '../add-item-dialog/add-item-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval } from 'rxjs';
+import { EditItemDialogComponent } from '../edit-item-dialog/edit-item-dialog.component';
 
 @Component({
   selector: 'app-drag-drop',
@@ -13,8 +14,9 @@ import { interval } from 'rxjs';
 export class DragDropComponent {
   newItem: string = '';
   priority: string = '';
-  todo: { text: string, createdTime: string, prior: string }[] = [];
-  done: { text: string, createdTime: string, prior: string }[] = [];
+  todo: { text: string, description: string, createdTime: string, prior: string }[] = [];
+  done: { text: string, description: string, createdTime: string, prior: string }[] = [];
+  
   currentDateTime: string = '';
   isSortedByPriority: boolean = false;
    priorityMapping: { [key: number]: string } = {
@@ -64,7 +66,7 @@ export class DragDropComponent {
       this.updateCurrentDateTime();
     });
   }
-  sortItemsByPriority(items: { text: string, createdTime: string, prior: string }[]): { text: string, createdTime: string, prior: string }[] {
+  sortItemsByPriority(items: { text: string,description: string, createdTime: string, prior: string }[]): { text: string,description: string, createdTime: string, prior: string }[] {
     return items.sort((b, a) => Number(a.prior) - Number(b.prior));
   }
   toggleSorting() {
@@ -73,6 +75,7 @@ export class DragDropComponent {
   if (this.isSortedByPriority) {
     this.todo = this.sortItemsByPriority(this.todo);
   }
+  this.isSortedByPriority = false
   }
   updateCurrentDateTime() {
     const currentDateTime = new Date();
@@ -109,19 +112,44 @@ export class DragDropComponent {
       if (result) {
         this.newItem = result.newItem;
         this.priority = result.priority;
+        const description = result.description;
   
         const priorityText = this.priorityMapping[Number(this.priority)];
   
         const currentTime = this.getCurrentDateTime();
-        this.todo.push({ text: this.newItem, createdTime: currentTime, prior:this.priority });
+        this.todo.push({ text: this.newItem, description, createdTime: currentTime, prior: this.priority });
         this.saveDataLocally();
         this.OpenSnackBar(`Добавлен элемент "${this.newItem}" в коллекцию ToDO. Приоритет: ${priorityText}`, 'Закрыть');
       }
     });
   }
+  openEditDialog(item: { text: string, description: string, createdTime: string, prior: string }): void {
+    const dialogRef = this.dialog.open(EditItemDialogComponent, {
+      width: '300px',
+      data: {
+        text: item.text,
+        description: item.description, 
+        priority: item.prior
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        item.text = result.text;
+        item.description = result.description;
+        item.prior = result.priority;
+  
+        const priorityText = this.priorityMapping[Number(item.prior)];
+  
+        this.saveDataLocally();
+        this.OpenSnackBar(`Изменения в элементе "${item.text}" сохранены. Приоритет: ${priorityText}`, 'Закрыть');
+      }
+    });
+  }
+  
   
 
-  deleteItemsToDo(item: { text: string, createdTime: string, prior: string }) {
+  deleteItemsToDo(item: { text: string, description: string, createdTime: string, prior: string }) {
     const index = this.todo.indexOf(item);
     if (index !== -1) {
       this.todo.splice(index, 1);
@@ -130,7 +158,7 @@ export class DragDropComponent {
     this.OpenSnackBar(`Удален элемент "${item.text}" из коллекции ToDO`, 'Закрыть');
   }
 
-  deleteItemsDone(item: { text: string, createdTime: string, prior: string }) {
+  deleteItemsDone(item: { text: string,description: string, createdTime: string, prior: string }) {
     const index = this.done.indexOf(item);
     if (index !== -1) {
       this.done.splice(index, 1);
@@ -151,7 +179,7 @@ export class DragDropComponent {
     });
   }
 
-  drop(event: CdkDragDrop<{ text: string, createdTime: string, prior: string }[]>) {
+  drop(event: CdkDragDrop<{ text: string,description: string,  createdTime: string, prior: string }[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
